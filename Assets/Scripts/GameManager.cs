@@ -36,27 +36,31 @@ public class GameManager : MonoBehaviour
         {
             MoveDown();
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             MoveLeft();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             MoveRight();
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             RotateClockwise();
         }
-        else if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             RotateCounterClockwise();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Drop();
         }
 
         PrintBoard();
     }
 
-    public void MoveDown()
+    public bool MoveDown()
     {
         block.Move(1, 0);
 
@@ -74,9 +78,11 @@ public class GameManager : MonoBehaviour
                 }
 
                 block = blockQueue.GetBlock();
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 
     public void MoveLeft()
@@ -105,6 +111,17 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void Drop()
+    {
+        bool placed;
+
+        do
+        {
+            placed = MoveDown();
+        }
+        while (placed == false);
     }
 
     public void RotateClockwise()
