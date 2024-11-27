@@ -39,6 +39,7 @@ public abstract class Block
         }
     }
 
+    // ABSTRACTION
     public void Move(int rows, int columns)
     {
         offset.row += rows;
@@ -46,6 +47,7 @@ public abstract class Block
     }
 }
 
+// INHERITENCE
 public class IBlock : Block
 {
     public IBlock()

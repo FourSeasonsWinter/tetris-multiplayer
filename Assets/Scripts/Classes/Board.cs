@@ -1,4 +1,3 @@
-using UnityEngine.UIElements;
 
 public class Board
 {
@@ -11,9 +10,20 @@ public class Board
         return row >= 0 && row < height && column >= 0 && column < width && IsCellEmpty(row, column);
     }
 
+    // POLYMORPHISM
+    public bool IsCellValid(Vector2D cell)
+    {
+        return cell.row >= 0 && cell.row < height && cell.column >= 0 && cell.column < width && IsCellEmpty(cell);
+    }
+
     public bool IsCellEmpty(int row, int column)
     {
         return grid[row, column] == false;
+    }
+
+    public bool IsCellEmpty(Vector2D cell)
+    {
+        return grid[cell.row, cell.column] == false;
     }
 
     public bool IsGameOver()
@@ -29,7 +39,7 @@ public class Board
         return false;
     }
 
-    public void ClearRows()
+    public int ClearRows()
     {
         int cleared = 0;
 
@@ -44,6 +54,8 @@ public class Board
                 MoveRowDown(row, cleared);
             }
         }
+
+        return cleared;
     }
 
     public void PlaceBlock(Block block)
@@ -52,8 +64,6 @@ public class Board
         {
             grid[cell.row, cell.column] = true;
         }
-
-        ClearRows();
     }
 
     private bool IsRowFull(int row)

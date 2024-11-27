@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
+    // ENCAPSULATION
     public string PlayerName { get; private set; }
     public TMP_InputField nameInputField;
 

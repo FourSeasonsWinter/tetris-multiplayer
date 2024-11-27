@@ -1,12 +1,14 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
     public bool GameOver { get; private set; }
+    public int RowsCleared { get; private set; }
+
     public TMP_Text playerNameLabel;
     public TextMeshProUGUI textBoard;
+    public TMP_Text rowsClearedLabel;
 
     private readonly Board board = new();
     private readonly BlockQueue blockQueue = new();
@@ -14,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     private const int width = 10;
     private const int height = 20;
+
+    private float moveDownSpeed = 1f;
 
     void Start()
     {
@@ -25,7 +29,7 @@ public class GameManager : MonoBehaviour
             playerNameLabel.text = TitleManager.Instance.PlayerName;
         }
 
-        InvokeRepeating(nameof(MoveDown), 1f, 1f);
+        InvokeRepeating(nameof(MoveDown), moveDownSpeed, moveDownSpeed);
     }
 
     void Update()
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
         }
 
         PrintBoard();
+        rowsClearedLabel.text = $"Rows cleared: {RowsCleared}";
     }
 
     public bool MoveDown()
@@ -70,6 +75,7 @@ public class GameManager : MonoBehaviour
             {
                 block.Move(-1, 0);
                 board.PlaceBlock(block);
+                RowsCleared += board.ClearRows();
                 
                 if (board.IsGameOver())
                 {
