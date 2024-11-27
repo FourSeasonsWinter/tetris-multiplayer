@@ -7,9 +7,19 @@ public class TitleManager : MonoBehaviour
     public string PlayerName { get; private set; }
     public TMP_InputField nameInputField;
 
+    public static TitleManager Instance;
+
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Update()
@@ -20,7 +30,6 @@ public class TitleManager : MonoBehaviour
     public void NameInputChanged()
     {
         PlayerName = nameInputField.text;
-        Debug.Log(nameInputField.text);
     }
 
     public void StartGame()

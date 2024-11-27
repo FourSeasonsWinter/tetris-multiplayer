@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     public bool GameOver { get; private set; }
+    public TMP_Text playerNameLabel;
+    public TextMeshProUGUI textBoard;
 
     private readonly Board board = new();
     private readonly BlockQueue blockQueue = new();
@@ -13,13 +15,15 @@ public class GameManager : MonoBehaviour
     private const int width = 10;
     private const int height = 20;
 
-    public TextMeshProUGUI textBoard;
-
     void Start()
     {
         GameOver = false;
         block = blockQueue.GetBlock();
-        textBoard = GameObject.Find("Temporary Board").GetComponent<TextMeshProUGUI>();
+
+        if (TitleManager.Instance != null)
+        {
+            playerNameLabel.text = TitleManager.Instance.PlayerName;
+        }
 
         InvokeRepeating(nameof(MoveDown), 1f, 1f);
     }
